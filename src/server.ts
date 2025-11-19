@@ -2,6 +2,10 @@ import express from 'express'
 import config from '@/config'
 import cors, {  } from 'cors'
 import type { CorsOptions } from 'cors'
+import compression from 'compression'
+import cookieParser from 'cookie-parser'
+import helmet from 'helmet'
+import limiter from './lib/limiter'
 
 const app = express()
 
@@ -20,6 +24,11 @@ const corsOptions: CorsOptions = {
 // middlewares
 
 app.use(cors(corsOptions))
+app.use(express.urlencoded({extended: true}))
+app.use(compression({threshold: 1024})) // compress only requests larger than 1024kb
+app.use(cookieParser())
+app.use(helmet())
+app.use(limiter)
 
 app.get('/', (req, res) => {
     res.status(200).json({message: "server is up"})

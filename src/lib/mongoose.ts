@@ -1,4 +1,5 @@
 import config from '@/config'
+import { logger } from './logger'
 import mongoose from 'mongoose'
 
 import type { ConnectOptions } from 'mongoose'
@@ -17,10 +18,10 @@ export const connectToDb = async (): Promise<void> =>{
     try {
 
         await mongoose.connect(config.DB_URL, connectOptions)
-        console.log('connected to the database successfully')
+        logger.info('connected to the database successfully')
 
     } catch (error) {
-        console.log('Error connecting to the database', error)
+        logger.error('Error connecting to the database', error)
         if(error instanceof Error) {
             throw(error)
         }
@@ -32,11 +33,11 @@ export const disconnectFromDB = async(): Promise<void> => {
     try {
 
         await mongoose.disconnect()
-        console.log('Disconnected from the database successfully')
+        logger.info('Disconnected from the database successfully')
 
     } catch (error) {
     
-        console.log('Error connecting to the database', error)
+        logger.error('Error connecting to the database', error)
         if(error instanceof Error) {
             throw(error)
         }

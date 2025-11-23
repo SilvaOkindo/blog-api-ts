@@ -10,6 +10,7 @@ import type { CorsOptions } from 'cors'
 import config from '@/config'
 import v1Router from '@/routes/v1'
 import { connectToDb, disconnectFromDB } from './lib/mongoose'
+import { logger } from '@/lib/logger'
 
 
 
@@ -34,17 +35,19 @@ app.use(express.urlencoded({extended: true}))
 app.use(compression({threshold: 1024})) // compress only requests larger than 1024kb
 app.use(cookieParser())
 app.use(helmet())
+app.use(express.json());
 app.use(limiter);
 
 
 (async () => {
     try {
 
-        await connectToDb()
         app.use('/api/v1', v1Router)
-
+        //app.use('/register', authRoutes)
+        await connectToDb()
+        
     } catch (error) {
-        console.log("Failed to start the server", error);
+        logger.error("Failed to start the server", error);
         
         if(process.env.NODE_ENV === 'production') {
             process.exit(1)
@@ -53,16 +56,16 @@ app.use(limiter);
 })();
 
 app.listen(config.PORT, ()=> {
-    console.log("server running on port 3000")
+    logger.info("server running on port 3000")
 })
 
 
 const handleServerShutdown = async () => {
     try {
         await disconnectFromDB()
-        console.log('server SHUTDOWN')
+        logger.info('server SHUTDOWN')
     } catch (e) {
-        console.log('An error occurred while shutting down the server', e)
+        logger.info('An error occurred while shutting down the server', e)
     }
 }
 
@@ -70,4 +73,6 @@ const handleServerShutdown = async () => {
 
 process.on('SIGTERM', handleServerShutdown)
 process.on('SIGINT', handleServerShutdown)
+
+
 

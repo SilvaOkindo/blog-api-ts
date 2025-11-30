@@ -6,6 +6,7 @@ import multer from 'multer';
 import { uploadBanner } from '@/middleware/upload-banner';
 import { body } from 'express-validator';
 import { validationError } from '@/middleware/validation';
+import { getBlogs } from '@/controllers/v1/blog/get-blogs';
 
 const router = Router();
 
@@ -33,5 +34,7 @@ router.post(
    uploadBanner('post'),
   createBlog,
 );
+
+router.get('/', authenticate, authorize(['admin', 'user']), getBlogs)
 
 export default router;

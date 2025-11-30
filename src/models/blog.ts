@@ -1,3 +1,4 @@
+import User  from '@/models/user';
 import { generateSlug } from '@/utils/generate-random-username'
 import {Types, Schema, model, } from 'mongoose'
 
@@ -53,6 +54,7 @@ const blogSchema = new Schema<IBlog>({
     },
     author: {
         type: Schema.Types.ObjectId,
+        ref: User,
         required: [true, ""]
     },
     viewsCount: {

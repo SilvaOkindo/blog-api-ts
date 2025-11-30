@@ -43,7 +43,6 @@ app.use(limiter);
     try {
 
         app.use('/api/v1', v1Router)
-        //app.use('/register', authRoutes)
         await connectToDb()
         
     } catch (error) {

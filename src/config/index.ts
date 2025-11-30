@@ -14,7 +14,10 @@ const config = {
     ACCESS_TOKEN_EXPIRY: process.env.ACCESS_TOKEN_EXPIRY as ms.StringValue,
     REFRESH_TOKEN_EXPIRY: process.env.REFRESH_TOKEN_EXPIRY as ms.StringValue,
     defaultResLimit: 20,
-    defaultResOffset: 0
+    defaultResOffset: 0,
+    CLOUD_NAME: process.env.CLOUD_NAME,
+    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY
 }
 
 export default config

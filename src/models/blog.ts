@@ -1,3 +1,4 @@
+import { generateSlug } from '@/utils/generate-random-username'
 import {Types, Schema, model, } from 'mongoose'
 
 export interface IBlog {
@@ -75,5 +76,13 @@ const blogSchema = new Schema<IBlog>({
 }, {timestamps: {
     createdAt: "publishedAt"
 }})
+
+
+blogSchema.pre('validate', function(next) {
+    if(this.title && !this.slug) {
+        this.slug = generateSlug(this.title)
+    }
+    next()
+})
 
 export default model<IBlog>("Blog", blogSchema)

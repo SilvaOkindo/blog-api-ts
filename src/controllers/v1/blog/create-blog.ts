@@ -19,7 +19,7 @@ export const createBlog = async (req: Request, res: Response) : Promise<void> =>
 
         //const cleanContent = purify.sanitize(content)
 
-        const newBlog = Blog.create({
+        const newBlog = await Blog.create({
             title,
             content,
             author: userId,
@@ -27,6 +27,10 @@ export const createBlog = async (req: Request, res: Response) : Promise<void> =>
             status
         })
 
+    
+        res.status(201).json({
+            blog: newBlog
+        })
         logger.info("New blog created successfully")
 
         

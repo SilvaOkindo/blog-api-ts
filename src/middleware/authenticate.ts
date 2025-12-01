@@ -9,7 +9,6 @@ import { verifyToken } from '@/lib/jwt'
 
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
     const authHeaders = req.headers.authorization
-    console.log(authHeaders)
 
     if(!authHeaders?.startsWith('Bearer ')) {
         res.status(401).json({

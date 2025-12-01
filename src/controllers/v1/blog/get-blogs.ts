@@ -9,15 +9,16 @@ type Query = {
 }
 
 export const getBlogs = async (req: Request, res: Response): Promise<void> => {
-    // TODO: check on total value and debug populate
     try {
+
+        let total: number
 
         const userId = req.userId
 
         const limit = parseInt(req.query.limit as string) || config.defaultResLimit
         const offset = parseInt(req.query.offset as string) || config.defaultResOffset
 
-        const total = await Blog.countDocuments()
+        total = await Blog.countDocuments()
 
         const user = await User.findById(userId).select("role").exec()
 
@@ -25,6 +26,7 @@ export const getBlogs = async (req: Request, res: Response): Promise<void> => {
         const query: Query = {}
         if (user?.role === "user") {
             query.status = "published"
+            total = await Blog.countDocuments(query)
         }
 
         const blogs = await Blog.find(query)

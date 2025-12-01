@@ -4,9 +4,10 @@ import { createBlog } from '@/controllers/v1/blog/create-blog';
 import { Router } from 'express';
 import multer from 'multer';
 import { uploadBanner } from '@/middleware/upload-banner';
-import { body } from 'express-validator';
+import { body, param, query } from 'express-validator';
 import { validationError } from '@/middleware/validation';
 import { getBlogs } from '@/controllers/v1/blog/get-blogs';
+import { getBlogsByUser } from '@/controllers/v1/blog/get-blogs-by-user';
 
 const router = Router();
 
@@ -31,10 +32,32 @@ router.post(
     .isIn(['draft', 'published'])
     .withMessage('Status should be either published or draft'),
   validationError,
-   uploadBanner('post'),
+  uploadBanner('post'),
   createBlog,
 );
 
-router.get('/', authenticate, authorize(['admin', 'user']), getBlogs)
+router.get(
+  '/',
+  authenticate,
+  authorize(['admin', 'user']),
+  query('limit')
+    .optional()
+    .isInt({ min: 1, max: 50 })
+    .withMessage('limit should be between 1 and 50'),
+  query('offset')
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage('page should be a positive number'),
+  validationError,
+  getBlogs,
+);
+
+router.get(
+  '/:userId',
+  authenticate,
+  authorize(['admin', 'user']),
+  param('userId').notEmpty().isMongoId().withMessage('invalid user id'),
+  getBlogsByUser,
+);
 
 export default router;

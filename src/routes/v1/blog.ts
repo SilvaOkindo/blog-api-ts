@@ -8,6 +8,7 @@ import { body, param, query } from 'express-validator';
 import { validationError } from '@/middleware/validation';
 import { getBlogs } from '@/controllers/v1/blog/get-blogs';
 import { getBlogsByUser } from '@/controllers/v1/blog/get-blogs-by-user';
+import { getBlogBySlug } from '@/controllers/v1/blog/get-blog-by-slug';
 
 const router = Router();
 
@@ -57,7 +58,20 @@ router.get(
   authenticate,
   authorize(['admin', 'user']),
   param('userId').notEmpty().isMongoId().withMessage('invalid user id'),
+  validationError,
   getBlogsByUser,
+);
+
+router.get(
+  '/slug/:slug',
+  authenticate,
+  authorize(['admin', 'user']),
+  param('sl(ug')
+    .notEmpty()
+    .withMessage('slug is required')
+    .isString()
+    .withMessage('slug should be a string'),
+  getBlogBySlug,
 );
 
 export default router;

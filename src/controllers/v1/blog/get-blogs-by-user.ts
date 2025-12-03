@@ -18,9 +18,8 @@ export const getBlogsByUser = async (req: Request, res: Response): Promise<void>
         const offset = parseInt(req.query.offset as string) || config.defaultResOffset
 
 
-        const user = await User.findById(currentUser).select("role").exec()
-        console.log(user)
-
+        const user = await User.findById(currentUser).select("role").lean( ).exec()
+        
         // get published blogs only if user.role === user
         const query: Query = {}
         if (user?.role === "user") {
@@ -50,6 +49,6 @@ export const getBlogsByUser = async (req: Request, res: Response): Promise<void>
             message: 'Internal server error',
             error: error
         })
-        logger.error("Error while getting all users")
+        logger.error("Error while getting blogs by user")
     }
 }

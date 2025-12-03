@@ -13,6 +13,6 @@ export const generateSlug = (title: string): string => {
 
 
             
-    const randomChars = Math.random().toString().slice(2)
+    const randomChars = Math.random().toString(36).slice(2)
     return `${slug}-${randomChars}`
 }

@@ -21,8 +21,8 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
 
     try {
 
-        const {userId} = verifyToken(token) as {userId: Types.ObjectId}
-        req.userId = userId
+        const payload= verifyToken(token) as {userId: Types.ObjectId}
+        req.userId = payload.userId
 
         return next()
 

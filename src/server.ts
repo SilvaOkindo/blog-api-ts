@@ -32,6 +32,7 @@ const corsOptions: CorsOptions = {
 
 app.use(cors(corsOptions))
 app.use(express.urlencoded({extended: true}))
+app.use(express.json())
 app.use(compression({threshold: 1024})) // compress only requests larger than 1024kb
 app.use(cookieParser())
 app.use(helmet())

@@ -29,10 +29,10 @@ export const uploadBanner = (method: 'post' | 'put') => {
 
         try {
             const {blogId} = req.params
-            //const blog = await Blog.findById(blogId)
+            const blog = await Blog.findById(blogId)
 
             const data = await uploadToCloudinary(req.file.buffer,
-               // blog?.banner.publicId.replace('blog-api/', '')
+               blog?.banner.publicId.replace('blog-api/', '')
             )
             if(!data) {
                 res.status(500).json({

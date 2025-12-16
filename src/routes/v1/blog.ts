@@ -9,6 +9,8 @@ import { validationError } from '@/middleware/validation';
 import { getBlogs } from '@/controllers/v1/blog/get-blogs';
 import { getBlogsByUser } from '@/controllers/v1/blog/get-blogs-by-user';
 import { getBlogBySlug } from '@/controllers/v1/blog/get-blog-by-slug';
+import { updateBlog } from '@/controllers/v1/blog/update-blog';
+import { deleteBlog } from '@/controllers/v1/blog/delete-blog';
 
 const router = Router();
 
@@ -73,5 +75,28 @@ router.get(
     .withMessage('slug should be a string'),
   getBlogBySlug,
 );
+
+router.put(
+  '/:blogId',
+  authenticate,
+  authorize(['admin']),
+  param("blogId").isMongoId().withMessage("Invalid blog id"),
+  body('title')
+    .optional()
+    .trim()
+    .isLength({ max: 180 })
+    .withMessage('Title should be less than 180 characters'),
+  body('content').trim().optional(),
+  body('status')
+    .trim()
+    .optional()
+    .isIn(['draft', 'published'])
+    .withMessage('Status should be either published or draft'),
+  validationError,
+  uploadBanner('put'),
+  updateBlog
+);
+
+router.delete('/:blogId', authenticate, authorize(['admin']), param('blogId').isMongoId().withMessage("Invalid blog id"), deleteBlog)
 
 export default router;

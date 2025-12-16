@@ -4,7 +4,6 @@ import {Response, Request} from 'express'
 import {v2 as cloudinary} from 'cloudinary'
 
 import { logger } from "@/lib/logger"
-import { log } from 'console';
 
 export const deleteCurrentUser = async (req: Request, res: Response): Promise<void> => {
     try {

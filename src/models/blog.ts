@@ -60,8 +60,11 @@ const blogSchema = new Schema<IBlog>({
     viewsCount: {
         type: Number,
         default: 0
-    }
-    ,
+    },
+    likesCount: {
+        type: Number,
+        default: 0
+    },
     commentsCount: {
         type: Number,
         default: 0

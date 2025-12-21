@@ -5,7 +5,7 @@ import { v2 as cloudinary } from 'cloudinary';
 
 import { logger } from '@/lib/logger';
 
-export const deleteCurrentUser = async (
+export const deleteUserById = async (
   req: Request,
   res: Response,
 ): Promise<void> => {

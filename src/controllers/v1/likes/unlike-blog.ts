@@ -43,6 +43,6 @@ export const unlikeBlog = async (req: Request, res: Response) : Promise<void> =>
         res.status(500).json({
             message: "Internal server error"
         })
-        logger.error("Error occurred while liking a blog")
+        logger.error("Error occurred while unliking a blog", err)
     }
 }

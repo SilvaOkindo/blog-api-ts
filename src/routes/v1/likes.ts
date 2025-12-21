@@ -16,4 +16,13 @@ router.post(
   likeBlog,
 );
 
+router.delete(
+  '/:blogId',
+  authenticate,
+  authorize(['admin', 'user']),
+  param('blogId').isMongoId().withMessage('Invalid blog id'),
+  validationError,
+  likeBlog,
+);
+
 export default router;

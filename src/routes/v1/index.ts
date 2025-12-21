@@ -4,6 +4,7 @@ import authRoutes from '@/routes/v1/auth'
 import usersRoutes from '@/routes/v1/users'
 import blogRoutes from '@/routes/v1/blog'
 import likesRoutes from '@/routes/v1/likes'
+import commentRoutes from '@/routes/v1/comment'
 
 const router = Router()
 
@@ -22,6 +23,7 @@ router.get('/', (req, res) => {
 router.use('/auth', authRoutes)
 router.use('/users', usersRoutes)
 router.use('/blogs', blogRoutes)
-router.use('/likes', likesRoutes)
+router.use('/blog/likes', likesRoutes)
+router.use('/blog/comments', commentRoutes)
 
 export default router
